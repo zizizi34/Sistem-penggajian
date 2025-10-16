@@ -17,31 +17,27 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-/*
-|--------------------------------------------------------------------------
-| Tambahan Route untuk Role Middleware
-|--------------------------------------------------------------------------
-*/
 
-// Halaman khusus Admin
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
-});
-
-// Halaman khusus User biasa
-Route::middleware(['auth', 'role:user'])->group(function () {
-    Route::get('/user/dashboard', function () {
-        return view('user.dashboard');
-    })->name('user.dashboard');
-});
-
-// Halaman khusus Super Admin
+// Super Admin
 Route::middleware(['auth', 'role:super_admin'])->group(function () {
     Route::get('/super/dashboard', function () {
         return view('super.dashboard');
     })->name('super.dashboard');
 });
 
+// Admin
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
+});
+
+// User
+Route::middleware(['auth', 'role:user'])->group(function () {
+    Route::get('/user/dashboard', function () {
+        return view('user.dashboard');
+    })->name('user.dashboard');
+});
+
 require __DIR__.'/auth.php';
+    

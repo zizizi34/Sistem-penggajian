@@ -15,7 +15,7 @@ class RoleMiddleware
         }
 
         if (Auth::user()->role !== $role) {
-            abort(403, 'Unauthorized');
+            abort(403, 'Akses ditolak.');
         }
 
         return $next($request);
