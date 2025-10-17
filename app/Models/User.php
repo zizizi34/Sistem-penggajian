@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'id_departemen',
     ];
 
     /**
@@ -44,5 +46,13 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Relasi ke Departemen (opsional)
+     */
+    public function departemen()
+    {
+        return $this->belongsTo(\App\Models\Departemen::class, 'id_departemen');
     }
 }

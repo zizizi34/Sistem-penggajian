@@ -23,20 +23,25 @@ class AuthenticatedSessionController extends Controller
      * Handle an incoming authentication request.
      */
     public function store(LoginRequest $request): RedirectResponse
-{
-    $request->authenticate();
-    $request->session()->regenerate();
+    {
+        $request->authenticate();
+        $request->session()->regenerate();
 
-    $user = Auth::user();
+        $user = Auth::user();
 
-    if ($user->role === 'super_admin') {
-        return redirect()->route('super.dashboard');
-    } elseif ($user->role === 'admin') {
-        return redirect()->route('admin.dashboard');
-    } else {
-        return redirect()->route('user.dashboard');
+        // For super admin we force their dashboard even if there is an intended URL.
+        if ($user->role === 'super_admin') {
+            $request->session()->forget('url.intended');
+            return redirect()->route('super.dashboard');
+        }
+
+        // For other roles prefer intended (if exists), otherwise role dashboard.
+        if ($user->role === 'admin') {
+            return redirect()->intended(route('admin.dashboard'));
+        }
+
+        return redirect()->intended(route('user.dashboard'));
     }
-}
 
 
     /**
@@ -50,6 +55,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect()->route('login');
     }
 }
