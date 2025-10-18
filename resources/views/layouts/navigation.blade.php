@@ -1,11 +1,10 @@
 <nav x-data="{ open: false }" class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
-            <!-- Left: Logo -->
+            <!-- Left: Logo / Brand (placeholder, replace with your logo file later) -->
             <div class="flex items-center space-x-4">
                 <a href="{{ route('dashboard') }}" class="flex items-center">
-                    <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-100" />
-                    <span class="ms-3 text-lg font-semibold text-gray-800 dark:text-gray-100">Sistem Penggajian</span>
+                    <div class="text-indigo-600 text-lg font-extrabold">Sistem Penggajian</div>
                 </a>
             </div>
 
@@ -59,8 +58,8 @@
                             <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-full text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none transition">
                                 <span class="sr-only">Open user menu</span>
                                 <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-indigo-600 text-white">{{ strtoupper(substr(Auth::user()->name,0,1) ?? 'A') }}</span>
-                                <span class="ms-2 hidden md:inline text-sm font-medium text-gray-700 dark:text-gray-200">{{ Auth::user()->name }}</span>
-                                <svg class="ms-1 h-4 w-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <span class="ml-2 hidden md:inline text-sm font-medium text-gray-700 dark:text-gray-200">{{ Auth::user()->name }}</span>
+                                <svg class="ml-1 h-4 w-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06-.02L10 10.67l3.71-3.48a.75.75 0 111.04 1.08l-4.25 4a.75.75 0 01-1.04 0l-4.25-4a.75.75 0 01-.02-1.06z" clip-rule="evenodd" />
                                 </svg>
                             </button>
@@ -78,7 +77,7 @@
                 </div>
 
                 <!-- Mobile hamburger -->
-                <div class="-me-2 flex items-center lg:hidden">
+                <div class="-mr-2 flex items-center lg:hidden">
                     <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none">
                         <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                             <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />

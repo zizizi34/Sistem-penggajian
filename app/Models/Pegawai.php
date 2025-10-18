@@ -15,7 +15,7 @@ class Pegawai extends Model
         'nik_pegawai', 'nama_pegawai', 'jenis_kelamin',
         'tanggal_lahir', 'alamat', 'no_hp', 'bank_pegawai',
         'no_rekening', 'npwp', 'id_ptkp_status',
-        'id_jabatan', 'id_departemen', 'tanggal_masuk', 'gaji_pokok'
+        'id_jabatan', 'id_departemen', 'tanggal_masuk', 'gaji_pokok', 'status_karyawan'
     ];
 
     // 🔹 Relasi ke jabatan

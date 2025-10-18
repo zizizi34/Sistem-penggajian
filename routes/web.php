@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PegawaiController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -90,23 +91,41 @@ Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':super_
 });
 
 // Admin
-Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':admin'])->group(function () {
+Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':admin', \App\Http\Middleware\EnsureAdminDepartment::class])->group(function () {
     Route::get('/admin/dashboard', function (\Illuminate\Http\Request $request) {
-        // Ambil daftar departemen untuk dipilih oleh admin
+        $user = auth()->user();
+
+        // For admin, enforce their department
+        $deptId = $user->id_departemen ?? $request->query('dept');
+
+        // Departments list (for supervisors or UI; admin will only see their dept)
         $departments = \App\Models\Departemen::orderBy('nama_departemen')->get();
 
-        // Jika admin memilih departemen (query param `dept`), tampilkan statistik untuk departemen itu
-        $selectedDept = $request->query('dept');
+        $selectedDept = $deptId ? \App\Models\Departemen::find($deptId) : null;
+
+        // List pegawai for that department
+        $pegawais = [];
         $totalPegawai = 0;
         $totalPenggajian = 0;
-
         if ($selectedDept) {
-            $totalPegawai = \App\Models\Pegawai::where('id_departemen', $selectedDept)->count();
-            $totalPenggajian = \App\Models\Penggajian::where('id_departemen', $selectedDept)->count();
+            $pegawais = \App\Models\Pegawai::where('id_departemen', $selectedDept->id)->get();
+            $totalPegawai = $pegawais->count();
+            $totalPenggajian = \App\Models\Penggajian::where('id_departemen', $selectedDept->id)->count();
         }
 
-        return view('admin.dashboard', compact('departments', 'selectedDept', 'totalPegawai', 'totalPenggajian'));
+        return view('admin.dashboard', compact('departments', 'selectedDept', 'totalPegawai', 'totalPenggajian', 'pegawais'));
     })->name('admin.dashboard');
+
+    // Pegawai management for admins: store only (creation via modal in admin dashboard)
+    Route::post('/pegawai', [\App\Http\Controllers\PegawaiController::class, 'store'])->name('pegawai.store');
+    Route::get('/pegawai/{id}/edit', [\App\Http\Controllers\PegawaiController::class, 'edit'])->name('pegawai.edit');
+    Route::put('/pegawai/{id}', [\App\Http\Controllers\PegawaiController::class, 'update'])->name('pegawai.update');
+    Route::delete('/pegawai/{id}', [\App\Http\Controllers\PegawaiController::class, 'destroy'])->name('pegawai.destroy');
+
+    // Jadwal routes
+    Route::get('/pegawai/{id}/jadwal', [\App\Http\Controllers\JadwalController::class, 'index'])->name('jadwal.index');
+    Route::post('/pegawai/{id}/jadwal', [\App\Http\Controllers\JadwalController::class, 'store'])->name('jadwal.store');
+    Route::delete('/pegawai/{id}/jadwal/{jadwal}', [\App\Http\Controllers\JadwalController::class, 'destroy'])->name('jadwal.destroy');
 });
 
 // User

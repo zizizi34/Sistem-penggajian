@@ -35,11 +35,18 @@ class AuthenticatedSessionController extends Controller
             return redirect()->route('super.dashboard');
         }
 
-        // For other roles prefer intended (if exists), otherwise role dashboard.
+        // For admin: force them to admin dashboard and, if they have an assigned department, include it
         if ($user->role === 'admin') {
-            return redirect()->intended(route('admin.dashboard'));
+            $request->session()->forget('url.intended');
+            $dept = $user->id_departemen ?? null;
+            $url = route('admin.dashboard');
+            if ($dept) {
+                $url = route('admin.dashboard', ['dept' => $dept]);
+            }
+            return redirect()->to($url);
         }
 
+        // Default for regular users: respect intended URL if present
         return redirect()->intended(route('user.dashboard'));
     }
 
