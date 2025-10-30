@@ -3,12 +3,11 @@
 @section('content')
     <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Left: Branding / message -->
-            <div class="hidden md:flex flex-col justify-center bg-white rounded-lg shadow p-8">
-                <div class="text-indigo-600 font-bold text-2xl">Sistem Penggajian</div>
-                <p class="mt-4 text-gray-600">Platform manajemen karyawan & penggajian yang aman dan mudah digunakan. Masuk untuk mengelola absensi, jadwal, dan penggajian.</p>
-                <div class="mt-6">
-                    <img src="/build/assets/office-illustration.svg" alt="office illustration" class="w-full h-48 object-contain opacity-90" />
+            <!-- Left: Branding / message (centered) -->
+            <div class="flex items-center justify-center bg-white rounded-lg shadow p-8 text-center">
+                <div>
+                    <div class="text-indigo-600 font-bold text-2xl">Sistem Penggajian</div>
+                    <p class="mt-4 text-gray-600">Platform manajemen karyawan & penggajian yang aman dan mudah digunakan. Masuk untuk mengelola absensi, jadwal, dan penggajian.</p>
                 </div>
             </div>
 
