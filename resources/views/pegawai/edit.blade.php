@@ -40,14 +40,18 @@
                     </div>
 
                     <div class="flex items-center space-x-3">
-                        <button class="px-4 py-2 bg-indigo-600 text-white rounded">Simpan</button>
-                        <form method="POST" action="{{ route('pegawai.destroy', $pegawai->id_pegawai) }}" onsubmit="return confirm('Hapus pegawai ini?')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded">Hapus</button>
-                        </form>
-                        <a href="{{ route('admin.dashboard') }}" class="px-4 py-2 bg-gray-200 rounded">Kembali</a>
+                        <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded">Simpan</button>
+                        <a href="{{ route('admin.dashboard', ['dept' => $pegawai->id_departemen]) }}" class="px-4 py-2 bg-gray-200 rounded">Kembali</a>
                     </div>
+                </form>
+
+                <div class="mt-3">
+                    <form method="POST" action="{{ route('pegawai.destroy', $pegawai->id_pegawai) }}" onsubmit="return confirm('Hapus pegawai ini?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded">Hapus</button>
+                    </form>
+                </div>
                 </form>
             </div>
         </div>

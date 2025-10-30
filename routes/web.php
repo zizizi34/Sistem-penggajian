@@ -35,6 +35,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Absensi (user)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/absensi', [\App\Http\Controllers\AbsensiController::class, 'index'])->name('absensi.index');
+    Route::post('/absensi', [\App\Http\Controllers\AbsensiController::class, 'store'])->name('absensi.store');
+});
+
 
 // Super Admin
 Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':super_admin'])->group(function () {
@@ -116,7 +122,10 @@ Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':admin'
         return view('admin.dashboard', compact('departments', 'selectedDept', 'totalPegawai', 'totalPenggajian', 'pegawais'));
     })->name('admin.dashboard');
 
-    // Pegawai management for admins: store only (creation via modal in admin dashboard)
+    // Pegawai management for admins
+    // GET /pegawai is provided so links or redirects that request the index via GET don't hit the POST-only route.
+    Route::get('/pegawai', [\App\Http\Controllers\PegawaiController::class, 'index'])->name('pegawai.index');
+    // creation is still via modal (POST)
     Route::post('/pegawai', [\App\Http\Controllers\PegawaiController::class, 'store'])->name('pegawai.store');
     Route::get('/pegawai/{id}/edit', [\App\Http\Controllers\PegawaiController::class, 'edit'])->name('pegawai.edit');
     Route::put('/pegawai/{id}', [\App\Http\Controllers\PegawaiController::class, 'update'])->name('pegawai.update');

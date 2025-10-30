@@ -128,9 +128,27 @@
 								</div>
 							</div>
 
-							<div class="mt-4 flex items-center justify-end">
-								<button type="button" id="cancelAdd" class="px-4 py-2 bg-gray-200 rounded mr-2">Batal</button>
-								<button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded">Simpan</button>
+							<div class="mt-4 grid gap-3">
+								<div class="flex items-center gap-3">
+									<input type="checkbox" id="createAccount" name="create_account" value="1" class="mr-2">
+									<label for="createAccount" class="text-sm">Buat akun login untuk pegawai ini</label>
+								</div>
+
+								<div id="accountFields" class="hidden grid grid-cols-2 gap-3">
+									<div>
+										<label class="block text-sm">Email (login)</label>
+										<input name="email" type="email" class="mt-1 block w-full border rounded px-3 py-2">
+									</div>
+									<div>
+										<label class="block text-sm">Password</label>
+										<input name="password" type="password" class="mt-1 block w-full border rounded px-3 py-2">
+									</div>
+								</div>
+
+								<div class="flex items-center justify-end">
+									<button type="button" id="cancelAdd" class="px-4 py-2 bg-gray-200 rounded mr-2">Batal</button>
+									<button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded">Simpan</button>
+								</div>
 							</div>
 						</form>
 					</div>
@@ -141,7 +159,7 @@
 
 <script>
 	(function(){
-		const openBtn = document.getElementById('openAddPegawai');
+				const openBtn = document.getElementById('openAddPegawai');
 		const modal = document.getElementById('modalAdd');
 		const closeBtn = document.getElementById('closeAdd');
 		const cancelBtn = document.getElementById('cancelAdd');
@@ -149,7 +167,16 @@
 		openBtn.addEventListener('click', function(){ modal.classList.remove('hidden'); modal.classList.add('flex'); });
 		if (closeBtn) closeBtn.addEventListener('click', function(){ modal.classList.add('hidden'); modal.classList.remove('flex'); });
 		if (cancelBtn) cancelBtn.addEventListener('click', function(){ modal.classList.add('hidden'); modal.classList.remove('flex'); });
-	})();
+
+				// Toggle account fields when checkbox checked
+				const createChk = document.getElementById('createAccount');
+				const accountFields = document.getElementById('accountFields');
+				if (createChk && accountFields) {
+					createChk.addEventListener('change', function(){
+						if (createChk.checked) accountFields.classList.remove('hidden'); else accountFields.classList.add('hidden');
+					});
+				}
+			})();
 </script>
 
 <script>

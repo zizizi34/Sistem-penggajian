@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pegawai;
 use App\Models\Departemen;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PegawaiController extends Controller
@@ -51,6 +52,9 @@ class PegawaiController extends Controller
             // gaji_pokok must be numeric and at least 0; set a high upper bound to allow large salaries
             'gaji_pokok' => 'nullable|numeric|min:0|max:1000000000',
             'status_karyawan' => 'nullable|in:magang,kontrak,tetap',
+            'create_account' => 'nullable|in:1,0',
+            'email' => 'required_if:create_account,1|email|unique:users,email',
+            'password' => 'required_if:create_account,1|string|min:6',
         ]);
 
         // If user is admin, force id_departemen to the admin's department
@@ -72,9 +76,21 @@ class PegawaiController extends Controller
             $data['status_karyawan'] = 'tetap';
         }
 
-        Pegawai::create($data);
+        $pegawai = Pegawai::create($data);
 
-        return redirect()->route('pegawai.index', ['dept' => $data['id_departemen'] ?? null])->with('status', 'Pegawai berhasil ditambahkan.');
+        // Optionally create a user account for this pegawai
+        if ($request->input('create_account')) {
+            $user = User::create([
+                'name' => $data['nama_pegawai'],
+                'email' => $request->input('email'),
+                'password' => $request->input('password'),
+                'role' => 'user',
+                'id_departemen' => $data['id_departemen'] ?? null,
+            ]);
+        }
+
+        // Redirect back to the admin dashboard scoped to the department so the new record is visible.
+        return redirect()->route('admin.dashboard', ['dept' => $data['id_departemen'] ?? null])->with('status', 'Pegawai berhasil ditambahkan.');
     }
 
     public function edit($id)
