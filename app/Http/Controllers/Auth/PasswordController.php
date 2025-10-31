@@ -15,12 +15,29 @@ class PasswordController extends Controller
      */
     public function update(Request $request): RedirectResponse
     {
+        $user = $request->user();
+
+        if ($user->must_change_password) {
+            // Allow setting a new password without the current password when the account
+            // is flagged as requiring a password change (e.g. admin-provided temp password).
+            $validated = $request->validateWithBag('updatePassword', [
+                'password' => ['required', Password::defaults(), 'confirmed'],
+            ]);
+
+            $user->update([
+                'password' => Hash::make($validated['password']),
+                'must_change_password' => false,
+            ]);
+
+            return back()->with('status', 'password-updated');
+        }
+
         $validated = $request->validateWithBag('updatePassword', [
             'current_password' => ['required', 'current_password'],
             'password' => ['required', Password::defaults(), 'confirmed'],
         ]);
 
-        $request->user()->update([
+        $user->update([
             'password' => Hash::make($validated['password']),
         ]);
 

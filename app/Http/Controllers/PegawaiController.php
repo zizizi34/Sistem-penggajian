@@ -84,6 +84,7 @@ class PegawaiController extends Controller
                 'name' => $data['nama_pegawai'],
                 'email' => $request->input('email'),
                 'password' => $request->input('password'),
+                'must_change_password' => true,
                 'role' => 'user',
                 'id_departemen' => $data['id_departemen'] ?? null,
             ]);
