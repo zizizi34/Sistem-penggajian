@@ -140,7 +140,57 @@ Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':admin'
 // User
 Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':user'])->group(function () {
     Route::get('/user/dashboard', function () {
-        return view('user.dashboard');
+        $user = auth()->user();
+
+        // show the last 14 days (including today)
+        $days = [];
+        $start = \Illuminate\Support\Carbon::now()->subDays(13)->startOfDay();
+        for ($d = 0; $d < 14; $d++) {
+            $date = $start->copy()->addDays($d);
+            $days[] = $date;
+        }
+
+        $absensis = \App\Models\Absensi::where('user_id', $user->id)
+            ->whereBetween('waktu', [\Illuminate\Support\Carbon::now()->subDays(13)->startOfDay(), \Illuminate\Support\Carbon::now()->endOfDay()])
+            ->orderBy('waktu')
+            ->get();
+
+        // Build per-day summary
+        $summary = collect();
+        foreach ($days as $day) {
+            $records = $absensis->filter(function ($a) use ($day) {
+                return \Illuminate\Support\Carbon::parse($a->waktu)->isSameDay($day);
+            });
+
+            $status = 'Tidak Hadir';
+            if ($records->contains(function ($r) { return $r->jenis === 'masuk'; })) {
+                $status = 'Hadir';
+            } elseif ($records->contains(function ($r) { return strtolower(trim($r->keterangan ?? '')) === 'izin' || ($r->jenis ?? '') === 'izin'; })) {
+                $status = 'Izin';
+            }
+
+            // clock-in and clock-out times (first masuk, last keluar)
+            $masuk = $records->firstWhere('jenis', 'masuk');
+            $keluar = $records->lastWhere('jenis', 'keluar');
+
+            $summary->push([
+                'date' => $day->toDateString(),
+                'pretty' => $day->translatedFormat('d M Y (D)'),
+                'status' => $status,
+                'masuk' => $masuk ? \Illuminate\Support\Carbon::parse($masuk->waktu)->format('H:i') : null,
+                'keluar' => $keluar ? \Illuminate\Support\Carbon::parse($keluar->waktu)->format('H:i') : null,
+                'records' => $records,
+            ]);
+        }
+
+        // Totals
+        $totals = [
+            'Hadir' => $summary->where('status', 'Hadir')->count(),
+            'Izin' => $summary->where('status', 'Izin')->count(),
+            'Tidak Hadir' => $summary->where('status', 'Tidak Hadir')->count(),
+        ];
+
+        return view('user.dashboard', compact('summary', 'totals'));
     })->name('user.dashboard');
 });
 
