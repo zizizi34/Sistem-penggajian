@@ -171,7 +171,8 @@ Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':user']
 
             // clock-in and clock-out times (first masuk, last keluar)
             $masuk = $records->firstWhere('jenis', 'masuk');
-            $keluar = $records->lastWhere('jenis', 'keluar');
+            // Collection::lastWhere isn't available in this Laravel version; use where() + last()
+            $keluar = $records->where('jenis', 'keluar')->last();
 
             $summary->push([
                 'date' => $day->toDateString(),
