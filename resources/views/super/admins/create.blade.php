@@ -1,9 +1,11 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800">Tambah Admin Baru</h2>
-    </x-slot>
+@extends('layouts.dashboard')
 
-    <div class="py-8">
+@section('header')
+    <h2 class="font-semibold text-xl text-gray-800">Tambah Admin Baru</h2>
+@endsection
+
+@section('content')
+    <div class="py-2">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow rounded-lg p-6">
                 @if(session('success'))
@@ -55,4 +57,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+@endsection

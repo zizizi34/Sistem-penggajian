@@ -1,17 +1,16 @@
-<!-- resources/views/super/dashboard.blade.php -->
-<x-app-layout>
-    <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <h2 class="font-semibold text-xl text-gray-800">Super Admin Dashboard</h2>
-            <div class="text-sm text-gray-600">Halo, <span class="font-medium">{{ auth()->user()->name ?? 'Admin' }}</span></div>
-        </div>
-    </x-slot>
+@extends('layouts.dashboard')
 
-    <div class="py-8">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+@section('header')
+    <div class="flex items-center justify-between">
+        <h2 class="font-semibold text-xl text-gray-800">Super Admin Dashboard</h2>
+        <div class="text-sm text-gray-600">Halo, <span class="font-medium">{{ auth()->user()->name ?? 'Admin' }}</span></div>
+    </div>
+@endsection
+
+@section('content')
+    <div class="mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Card -->
-                <div class="bg-white overflow-hidden shadow rounded-lg p-5">
+                <div class="bg-white overflow-hidden shadow rounded-lg p-6 min-h-24 flex items-center">
                     <div class="flex items-center">
                         <div class="flex-shrink-0 inline-flex items-center justify-center h-12 w-12 rounded-md bg-blue-50 text-blue-700">
                             <!-- icon -->
@@ -26,7 +25,7 @@
                     </div>
                 </div>
 
-                <div class="bg-white overflow-hidden shadow rounded-lg p-5">
+                <div class="bg-white overflow-hidden shadow rounded-lg p-6 min-h-24 flex items-center">
                     <div class="flex items-center">
                         <div class="flex-shrink-0 inline-flex items-center justify-center h-12 w-12 rounded-md bg-green-50 text-green-700">
                             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 6h18M3 14h18M3 18h18"></path></svg>
@@ -40,7 +39,7 @@
                     </div>
                 </div>
 
-                <div class="bg-white overflow-hidden shadow rounded-lg p-5">
+                <div class="bg-white overflow-hidden shadow rounded-lg p-6 min-h-24 flex items-center">
                     <div class="flex items-center">
                         <div class="flex-shrink-0 inline-flex items-center justify-center h-12 w-12 rounded-md bg-yellow-50 text-yellow-700">
                             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.657 0 3-1.567 3-3.5S13.657 1 12 1 9 2.567 9 4.5 10.343 8 12 8zM6 22v-6a4 4 0 014-4h4a4 4 0 014 4v6"></path></svg>
@@ -54,7 +53,7 @@
                     </div>
                 </div>
 
-                <div class="bg-white overflow-hidden shadow rounded-lg p-5">
+                <div class="bg-white overflow-hidden shadow rounded-lg p-6 min-h-24 flex items-center">
                     <div class="flex items-center">
                         <div class="flex-shrink-0 inline-flex items-center justify-center h-12 w-12 rounded-md bg-red-50 text-red-700">
                             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6a2 2 0 012-2h2a2 2 0 012 2v6M5 18h14"></path></svg>
@@ -76,7 +75,7 @@
 
                     <div class="mt-6">
                         <div class="flow-root">
-                            <ul class="divide-y divide-gray-200">
+                            <ul class="divide-y divide-gray-200 max-h-80 overflow-y-auto">
                                 @forelse($activities as $act)
                                     <li class="py-4">
                                         <div class="flex items-start space-x-3">
@@ -126,4 +125,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+@endsection
