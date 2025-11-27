@@ -20,4 +20,9 @@ class Departemen extends Model
         return $this->hasMany(Pegawai::class, 'id_departemen');
     }
 
+    public function admins()
+    {
+        return $this->hasMany(User::class, 'id_departemen')->where('role', 'admin');
+    }
+
 }

@@ -7,7 +7,7 @@
 
 @if($type === 'password')
 	<div class="relative">
-		<input id="{{ $id }}" @disabled($disabled) {{ $attributes->merge(['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm pr-10', 'id' => $id]) }}>
+		<input id="{{ $id }}" @disabled($disabled) {{ $attributes->merge(['class' => 'border border-gray-300 bg-white focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm pr-10', 'id' => $id]) }}>
 
 		<button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500" data-toggle-target="#{{ $id }}" aria-label="Tampilkan kata sandi">
 			<!-- Eye open (Heroicons: eye) -->
@@ -52,6 +52,6 @@
 	</script>
 @else
 
-	<input @disabled($disabled) {{ $attributes->merge(['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm']) }}>
+	<input @disabled($disabled) {{ $attributes->merge(['class' => 'border border-gray-300 bg-white focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm']) }}>
 
 @endif

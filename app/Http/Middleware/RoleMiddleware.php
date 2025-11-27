@@ -14,7 +14,9 @@ class RoleMiddleware
             return redirect('/login');
         }
 
-        if (Auth::user()->role !== $role) {
+        // Allow super_admin to bypass role checks (full access)
+        $userRole = Auth::user()->role;
+        if ($userRole !== $role && $userRole !== 'super_admin') {
             abort(403, 'Akses ditolak.');
         }
 

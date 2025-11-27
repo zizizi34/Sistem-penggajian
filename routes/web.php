@@ -88,7 +88,12 @@ Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':super_
 
         $activities = $activities->sortByDesc('time')->take(10);
 
-        return view('super.dashboard', compact('totalUsers', 'totalPegawai', 'totalDepartments', 'totalPenggajian', 'departments', 'activities'));
+        // Fetch admin data
+        $admins = \App\Models\User::where('role', 'admin')->with('departemen')->orderBy('created_at', 'desc')->get();
+        $totalAdmins = $admins->count();
+        $departments = \App\Models\Departemen::withCount(['admins', 'pegawais'])->get();
+
+        return view('super.dashboard', compact('totalUsers', 'totalPegawai', 'totalDepartments', 'totalPenggajian', 'departments', 'activities', 'admins', 'totalAdmins'));
     })->name('super.dashboard');
     
         // Super admin: manage admins

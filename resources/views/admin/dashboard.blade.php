@@ -114,13 +114,9 @@
 						</select>
 					</div>
 					<div>
+						<!-- Jabatan selection removed as requested; keep field optional in backend -->
 						<label class="block text-sm">Jabatan</label>
-						<select name="id_jabatan" class="mt-1 block w-full border rounded px-3 py-2">
-							<option value="">Pilih jabatan</option>
-							@foreach(\App\Models\Jabatan::orderBy('nama_jabatan')->get() as $jab)
-								<option value="{{ $jab->id }}">{{ $jab->nama_jabatan }}</option>
-							@endforeach
-						</select>
+						<div class="mt-1 text-sm text-gray-500">(Tidak dipilih) - kosongkan jika tidak ada</div>
 					</div>
 				</div>
 
@@ -130,14 +126,16 @@
 						<label for="createAccount" class="text-sm">Buat akun login untuk pegawai ini</label>
 					</div>
 
-					<div id="accountFields" class="hidden grid grid-cols-2 gap-3">
-						<div>
-							<label class="block text-sm">Email (login)</label>
-							<input name="email" type="email" class="mt-1 block w-full border rounded px-3 py-2">
-						</div>
-						<div>
-							<label class="block text-sm">Password</label>
-							<input name="password" type="password" class="mt-1 block w-full border rounded px-3 py-2">
+					<div id="accountFields" class="hidden">
+						<div class="grid grid-cols-2 gap-3">
+							<div>
+								<label class="block text-sm">Email (login)</label>
+								<input name="email" type="email" class="mt-1 block w-full border rounded px-3 py-2">
+							</div>
+							<div>
+								<label class="block text-sm">Password</label>
+								<input name="password" type="password" class="mt-1 block w-full border rounded px-3 py-2">
+							</div>
 						</div>
 					</div>
 

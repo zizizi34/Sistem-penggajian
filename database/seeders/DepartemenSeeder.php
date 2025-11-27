@@ -3,17 +3,24 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
+use App\Models\Departemen;
 
 class DepartemenSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     */
     public function run(): void
     {
-        DB::table('departemens')->insert([
-            ['nama_departemen' => 'IT', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['nama_departemen' => 'HRD', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['nama_departemen' => 'Keuangan', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-        ]);
+        $departments = [
+            ['nama_departemen' => 'IT'],
+            ['nama_departemen' => 'Pemasaran'],
+        ];
+
+        foreach ($departments as $d) {
+            Departemen::firstOrCreate([
+                'nama_departemen' => $d['nama_departemen'],
+            ], $d);
+        }
     }
 }

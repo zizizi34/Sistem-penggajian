@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+<nav x-data="{ open: false }" class="bg-white border-b border-gray-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
             <!-- Left: Logo / Brand (placeholder, replace with your logo file later) -->
@@ -34,8 +34,8 @@
                 <!-- Search (desktop) -->
                 <div class="hidden md:block">
                     <label for="search" class="sr-only">Search</label>
-                    <div class="relative text-gray-600 dark:text-gray-300">
-                        <input id="search" name="search" type="search" placeholder="Cari..." class="block w-56 pl-10 pr-3 py-2 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                    <div class="relative text-gray-600">
+                        <input id="search" name="search" type="search" placeholder="Cari..." class="block w-56 pl-10 pr-3 py-2 border border-gray-200 bg-white text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" />
                         <div class="absolute left-3 top-1/2 -translate-y-1/2">
                             <svg class="h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
@@ -45,8 +45,8 @@
                 </div>
 
                 <!-- Notifications -->
-                <button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none" title="Notifications">
-                    <svg class="h-6 w-6 text-gray-600 dark:text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <button class="p-2 rounded-md hover:bg-gray-100 focus:outline-none" title="Notifications">
+                    <svg class="h-6 w-6 text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                     </svg>
                 </button>
@@ -56,11 +56,11 @@
                     @auth
                         <x-dropdown align="right" width="48">
                             <x-slot name="trigger">
-                                <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-full text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none transition">
+                                <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-100 focus:outline-none transition">
                                     <span class="sr-only">Open user menu</span>
                                     <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-indigo-600 text-white">{{ strtoupper(substr(auth()->user()->name ?? 'A',0,1)) }}</span>
-                                    <span class="ml-2 hidden md:inline text-sm font-medium text-gray-700 dark:text-gray-200">{{ auth()->user()->name }}</span>
-                                    <svg class="ml-1 h-4 w-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <span class="ml-2 hidden md:inline text-sm font-medium text-gray-700">{{ auth()->user()->name }}</span>
+                                    <svg class="ml-1 h-4 w-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                         <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06-.02L10 10.67l3.71-3.48a.75.75 0 111.04 1.08l-4.25 4a.75.75 0 01-1.04 0l-4.25-4a.75.75 0 01-.02-1.06z" clip-rule="evenodd" />
                                     </svg>
                                 </button>
@@ -76,13 +76,13 @@
                             </x-slot>
                         </x-dropdown>
                     @else
-                        <a href="{{ route('login') }}" class="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200">Login</a>
+                        <a href="{{ route('login') }}" class="px-3 py-2 text-sm font-medium text-gray-700">Login</a>
                     @endauth
                 </div>
 
                 <!-- Mobile hamburger -->
                 <div class="-mr-2 flex items-center lg:hidden">
-                    <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none">
+                    <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:bg-gray-100 focus:outline-none">
                         <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                             <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                             <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -94,7 +94,7 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden lg:hidden border-t border-gray-100 dark:border-gray-800">
+    <div :class="{'block': open, 'hidden': ! open}" class="hidden lg:hidden border-t border-gray-100">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">{{ __('Dashboard') }}</x-responsive-nav-link>
 
@@ -112,13 +112,13 @@
         </div>
 
         <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-700">
+        <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4">
                 @auth
-                    <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ auth()->user()->name }}</div>
+                    <div class="font-medium text-base text-gray-800">{{ auth()->user()->name }}</div>
                     <div class="font-medium text-sm text-gray-500">{{ auth()->user()->email }}</div>
                 @else
-                    <div class="font-medium text-base text-gray-800 dark:text-gray-200">Guest</div>
+                    <div class="font-medium text-base text-gray-800">Guest</div>
                     <div class="font-medium text-sm text-gray-500"><a href="{{ route('login') }}" class="text-indigo-600">Login</a></div>
                 @endauth
             </div>

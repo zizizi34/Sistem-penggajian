@@ -29,8 +29,8 @@
 
                     <div class="mt-4">
                         <x-input-label for="id_departemen" :value="__('Departemen (opsional)')" />
-                        <select id="id_departemen" name="id_departemen" class="block mt-1 w-full border-gray-300 rounded-md">
-                            <option value="">-- Pilih Departemen --</option>
+                        <select id="id_departemen" name="id_departemen" class="block mt-1 w-full border-gray-300 rounded-md appearance-none">
+                            <option value="" style="display:none;">Pilih Departemen</option>
                             @foreach($departments as $dept)
                                 <option value="{{ $dept->id }}" {{ old('id_departemen') == $dept->id ? 'selected' : '' }}>{{ $dept->nama_departemen }}</option>
                             @endforeach
