@@ -135,7 +135,7 @@
         <div class="bg-white shadow rounded-lg p-6">
             <div class="mb-4">
                 <h3 class="text-lg font-semibold text-gray-900">Admin per Departemen</h3>
-                <p class="mt-1 text-sm text-gray-600">Distribusi admin di setiap departemen. Klik untuk melihat detail.</p>
+                <p class="mt-1 text-sm text-gray-600">Distribusi admin di setiap departemen. Klik untuk melihat .</p>
             </div>
 
             <div class="space-y-2 max-h-80 overflow-y-auto">
