@@ -1,3 +1,103 @@
+
+**Sistem Penggajian — Dokumentasi Singkat (Versi Profesional)**
+
+**Status Proyek**: Perancangan (Design) — fitur inti direncanakan dan model data dasar tersedia. Implementasi penuh masih dalam proses.
+
+**Tujuan**
+Memberikan sistem terpusat untuk menghitung dan mengelola penggajian karyawan, termasuk perhitungan upah dasar, tunjangan, bonus, potongan, dan pajak. Sistem ini dirancang agar mudah disesuaikan dengan kebijakan perusahaan (komponen gaji, frekuensi pembayaran, dan aturan pajak lokal).
+
+**Ringkasan Fungsional**
+- **Input karyawan**: data personal, jabatan, departemen, gaji pokok, status pajak (PTKP), komponen tunjangan tetap/variabel.
+- **Kehadiran & Jadwal**: data kehadiran harian, izin, cuti, lembur.
+- **Perhitungan Gaji**: formula modular untuk menghitung komponen:
+	- **Gaji Pokok** (GP): nilai dasar dari data pegawai.
+	- **Tunjangan** (T): dapat berupa tunjangan tetap (T_fix) dan variabel (T_var).
+	- **Bonus** (B): per kasus/periodik, dapat dihitung berdasarkan KPI atau aturan manual.
+	- **Lembur** (L): dihitung per jam lembur sesuai aturan upah per jam.
+	- **Potongan** (P): BPJS, pinjaman, potongan absen, dsb.
+	- **Pajak (PPH)**: dihitung setelah pengurangan PTKP (lihat `PtkpStatus`).
+
+	Contoh formula ringkas (representasi):
+	- Gaji Kotor = $GP + T_{fix} + T_{var} + B + L$
+	- Penghasilan Kena Pajak = $Gaji\ Kotor - P - (PTKP)$
+	- Pajak = fungsi(Penghasilan Kena Pajak, tarif)
+	- Gaji Bersih = $Gaji\ Kotor - P - Pajak$
+
+**Input yang Diperlukan untuk Perhitungan**
+- `basic_salary` (numeric): gaji pokok per periode.
+- `attendance_days` (int): jumlah hari hadir di periode.
+- `overtime_hours` (float): total jam lembur.
+- `bonuses` (array): daftar bonus (nama, nilai, tipe: tetap/variabel).
+- `allowances` (array): daftar tunjangan (nama, nilai, tipe).
+- `deductions` (array): daftar potongan (nama, nilai, tipe).
+- `ptkp_status_id` (int): referensi ke `PtkpStatus` untuk perhitungan PPh.
+
+**Model Data (high level)**
+- `User` / `Pegawai`: profil pegawai dan relasi ke `Jabatan`/`Departemen`.
+- `Absensi`: catatan masuk/keluar, status (hadir, izin, sakit, cuti).
+- `Jadwal`: jadwal kerja dan shift.
+- `Penggajian`: record per periode berisi breakdown komponen gaji.
+- `PtkpStatus`: daftar status PTKP dan nilai yang terkait.
+
+**API / Endpoints (proposal desain)**
+- `POST /api/payroll/calculate` : kirim payload pegawai dan periode, kembalikan breakdown perhitungan.
+- `GET /api/payroll/{period}` : ambil laporan penggajian periode tertentu.
+- `POST /api/employees` : tambah pegawai baru.
+- `GET /api/attendance/{employee}` : fetch absensi pegawai.
+
+Implementasi endpoint mengikuti struktur `routes/api.php` dan controller di `app/Http/Controllers/API`.
+
+**Instalasi & Konfigurasi (PowerShell)**
+1. Pastikan PHP (8.x), Composer, Node.js, dan NPM tersedia.
+2. Jalankan perintah di root project:
+
+```powershell
+cd c:\Users\RPL13\Sistem-penggajian
+composer install; copy .env.example .env; php artisan key:generate
+```
+
+3. Sesuaikan ` .env ` (DB_*, MAIL_*, APP_URL).
+4. Pasang asset & migrasi data:
+
+```powershell
+npm install; npm run dev
+php artisan migrate --seed
+php artisan storage:link
+php artisan serve --host=127.0.0.1 --port=8000
+```
+
+Catatan: Gunakan `php artisan migrate --force` pada deployment otomatis di produksi.
+
+**Testing & Validasi**
+- Buat unit test untuk fungsi perhitungan gaji di `tests/Unit` (contoh: hitung pajak, hitung lembur, integrasi penghitungan total).
+- Gunakan dataset seeder untuk men-setup skenario penggajian (gaji berbeda, absensi berbeda).
+
+**Roadmap / Rencana Pengembangan**
+- Phase 1 (Design): finalisasi model data, definisi komponen gaji, dan aturan pajak.
+- Phase 2 (Core): implementasi perhitungan, migrasi, seeder, dan endpoint API kalkulasi.
+- Phase 3 (UI): dashboard HR, form input data karyawan, modul slip gaji (PDF) dan export.
+- Phase 4 (Ops): backup, monitoring, dan deployment otomatis.
+
+**Keamanan & Kepatuhan**
+- Enkripsi data sensitif (password, token) dan batasi akses data personal.
+- Simpan log perubahan data payroll untuk audit.
+- Pastikan kepatuhan terhadap aturan pajak dan ketenagakerjaan lokal.
+
+**Kontribusi**
+- Fork repo, buat branch `feature/xxx`, ajukan PR ke `main`.
+- Sertakan deskripsi fitur, skenario testing, dan contoh payload API bila relevan.
+
+**Kontak & Lisensi**
+- Maintainer: lihat `composer.json` untuk kontak developer.
+- Lisensi: MIT (default), sesuaikan jika organisasi punya lisensi lain.
+
+--
+Dokumentasi ini dirancang untuk tim pengembang dan pemangku kepentingan HR agar mempermudah diskusi teknis saat fase perancangan. Jika Anda ingin, saya dapat:
+- Menambahkan contoh payload JSON untuk endpoint kalkulasi.
+- Menyusun template slip gaji (HTML/PDF) dan contoh output.
+- Membuat diagram ER model dan alur perhitungan gaji.
+
+Tolong pilih satu atau lebih item di atas untuk saya tambahkan selanjutnya.
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
