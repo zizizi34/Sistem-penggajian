@@ -1,9 +1,7 @@
 
-**Sistem Penggajian — Dokumentasi Singkat (Versi Profesional)**
+**Sistem Penggajian**
 
-**Status Proyek**: Perancangan (Design) — fitur inti direncanakan dan model data dasar tersedia. Implementasi penuh masih dalam proses.
-
-**Tujuan**
+Perancangan (Design) — fitur inti direncanakan dan model data dasar tersedia. Implementasi penuh masih dalam proses.
 Memberikan sistem terpusat untuk menghitung dan mengelola penggajian karyawan, termasuk perhitungan upah dasar, tunjangan, bonus, potongan, dan pajak. Sistem ini dirancang agar mudah disesuaikan dengan kebijakan perusahaan (komponen gaji, frekuensi pembayaran, dan aturan pajak lokal).
 
 **Ringkasan Fungsional**
