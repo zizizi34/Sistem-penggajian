@@ -68,4 +68,32 @@
             </div>
         </form>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectDept = document.querySelector('select[name="id_departemen"]');
+            
+            if (selectDept) {
+                selectDept.addEventListener('focus', function() {
+                    // Sembunyikan placeholder saat fokus
+                    if (this.value === '') {
+                        const placeholder = this.querySelector('option[value=""]');
+                        if (placeholder) {
+                            placeholder.style.display = 'none';
+                        }
+                    }
+                });
+                
+                selectDept.addEventListener('blur', function() {
+                    // Tampilkan kembali placeholder jika tidak ada pilihan
+                    if (this.value === '') {
+                        const placeholder = this.querySelector('option[value=""]');
+                        if (placeholder) {
+                            placeholder.style.display = 'block';
+                        }
+                    }
+                });
+            }
+        });
+    </script>
 @endsection

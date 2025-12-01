@@ -29,12 +29,12 @@
 
                     <div class="mt-4">
                         <x-input-label for="id_departemen" :value="__('Departemen (opsional)')" />
-                        <select id="id_departemen" name="id_departemen" class="block mt-1 w-full border-gray-300 rounded-md appearance-none">
-                            <option value="" style="display:none;">Pilih Departemen</option>
+                        <x-select-input id="id_departemen" name="id_departemen" class="block mt-1 w-full">
+                            <option value="">-- Pilih Departemen --</option>
                             @foreach($departments as $dept)
                                 <option value="{{ $dept->id }}" {{ old('id_departemen') == $dept->id ? 'selected' : '' }}>{{ $dept->nama_departemen }}</option>
                             @endforeach
-                        </select>
+                        </x-select-input>
                         <x-input-error :messages="$errors->get('id_departemen')" class="mt-2" />
                     </div>
 
@@ -57,4 +57,32 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectDept = document.getElementById('id_departemen');
+            
+            if (selectDept) {
+                selectDept.addEventListener('focus', function() {
+                    // Sembunyikan placeholder saat fokus
+                    if (this.value === '') {
+                        const placeholder = this.querySelector('option[value=""]');
+                        if (placeholder) {
+                            placeholder.style.display = 'none';
+                        }
+                    }
+                });
+                
+                selectDept.addEventListener('blur', function() {
+                    // Tampilkan kembali placeholder jika tidak ada pilihan
+                    if (this.value === '') {
+                        const placeholder = this.querySelector('option[value=""]');
+                        if (placeholder) {
+                            placeholder.style.display = 'block';
+                        }
+                    }
+                });
+            }
+        });
+    </script>
 @endsection
