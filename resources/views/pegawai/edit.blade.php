@@ -17,7 +17,8 @@
             <div class="grid grid-cols-2 gap-3">
                 <div>
                     <label class="block text-sm">Gaji Pokok</label>
-                    <input name="gaji_pokok" type="number" step="0.01" class="mt-1 block w-full border rounded px-3 py-2" value="{{ old('gaji_pokok', $pegawai->gaji_pokok) }}">
+                    <input id="edit_gaji_display" type="text" class="mt-1 block w-full border rounded px-3 py-2" value="{{ old('gaji_pokok', number_format($pegawai->gaji_pokok ?? 0, 0, ',', '.')) }}">
+                    <input type="hidden" name="gaji_pokok" id="edit_gaji" value="{{ old('gaji_pokok', $pegawai->gaji_pokok) }}">
                 </div>
                 <div>
                     <label class="block text-sm">Status</label>
@@ -53,4 +54,38 @@
             </form>
         </div>
     </div>
+    <script>
+        // Formatting for edit gaji input
+        (function(){
+            function formatDisplay(value) {
+                if (value === null || value === undefined) return '';
+                let s = String(value).replace(/[^0-9]/g, '');
+                s = s.replace(/^0+(?=\d)/, '');
+                if (s === '') return '';
+                return s.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            }
+
+            function normalizeNumber(formatted) {
+                if (!formatted) return '';
+                return formatted.replace(/\./g, '') || '';
+            }
+
+            const display = document.getElementById('edit_gaji_display');
+            const hidden = document.getElementById('edit_gaji');
+            const form = display ? display.closest('form') : null;
+
+            if (display) {
+                display.addEventListener('input', function(){
+                    const raw = this.value;
+                    const formatted = formatDisplay(raw);
+                    this.value = formatted;
+                    if (hidden) hidden.value = normalizeNumber(formatted);
+                });
+
+                if (hidden) hidden.value = normalizeNumber(display.value);
+            }
+
+            if (form) form.addEventListener('submit', function(){ if (display && hidden) hidden.value = normalizeNumber(display.value); });
+        })();
+    </script>
 @endsection

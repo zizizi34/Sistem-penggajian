@@ -100,7 +100,8 @@
 					</div>
 					<div>
 						<label class="block text-sm">Gaji Pokok</label>
-						<input name="gaji_pokok" type="number" step="0.01" min="0" max="1000000000" placeholder="0" class="mt-1 block w-full border rounded px-3 py-2">
+						<input id="modal_gaji_display" type="text" placeholder="0" class="mt-1 block w-full border rounded px-3 py-2">
+						<input type="hidden" name="gaji_pokok" id="modal_gaji" value="">
 					</div>
 				</div>
 
@@ -199,6 +200,45 @@
 			if (closeJ) closeJ.addEventListener('click', function(){ if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); } });
 		})();
 	</script>
+
+		<script>
+			// Currency formatting for modal gaji input
+			(function(){
+				function formatDisplay(value) {
+					if (value === null || value === undefined) return '';
+					let s = String(value).replace(/[^0-9]/g, '');
+					s = s.replace(/^0+(?=\d)/, '');
+					if (s === '') return '';
+					return s.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+				}
+
+				function normalizeNumber(formatted) {
+					if (!formatted) return '';
+					return formatted.replace(/\./g, '') || '';
+				}
+
+				const display = document.getElementById('modal_gaji_display');
+				const hidden = document.getElementById('modal_gaji');
+				const form = display ? display.closest('form') : null;
+
+				if (display) {
+					display.addEventListener('input', function(){
+						const raw = this.value;
+						const formatted = formatDisplay(raw);
+						this.value = formatted;
+						if (hidden) hidden.value = normalizeNumber(formatted);
+					});
+
+					if (hidden) hidden.value = normalizeNumber(display.value);
+				}
+
+				if (form) {
+					form.addEventListener('submit', function(){
+						if (display && hidden) hidden.value = normalizeNumber(display.value);
+					});
+				}
+			})();
+		</script>
 	@endpush
 
 @endsection
