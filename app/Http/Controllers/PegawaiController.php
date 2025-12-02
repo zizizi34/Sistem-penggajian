@@ -76,10 +76,17 @@ class PegawaiController extends Controller
             $data['status_karyawan'] = 'tetap';
         }
 
+        // Create pegawai record. IMPORTANT: do NOT create any Absensi records here.
+        // Absensi must be created by the user via the AbsensiController when they
+        // actually perform clock-in/clock-out actions. This ensures new pegawai
+        // start with an empty attendance log.
         $pegawai = Pegawai::create($data);
 
         // Optionally create a user account for this pegawai
         if ($request->input('create_account')) {
+            // Create a linked user account for the pegawai. Do not create any
+            // Absensi records here — attendance is recorded only when the user
+            // performs an explicit action (via AbsensiController@store).
             $user = User::create([
                 'name' => $data['nama_pegawai'],
                 'email' => $request->input('email'),
