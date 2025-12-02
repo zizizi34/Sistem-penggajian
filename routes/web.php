@@ -99,6 +99,12 @@ Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':super_
         // Super admin: manage admins
         Route::get('/super/admins/create', [\App\Http\Controllers\Super\AdminController::class, 'create'])->name('super.admins.create');
         Route::post('/super/admins', [\App\Http\Controllers\Super\AdminController::class, 'store'])->name('super.admins.store');
+
+        // Admin detail per departemen
+        Route::get('/super/admin-detail/{departemen_id}', [\App\Http\Controllers\Super\AdminDetailController::class, 'show'])->name('super.admin-detail.show');
+        Route::get('/super/admin/{admin_id}/edit', [\App\Http\Controllers\Super\AdminDetailController::class, 'edit'])->name('super.admin-detail.edit');
+        Route::put('/super/admin/{admin_id}', [\App\Http\Controllers\Super\AdminDetailController::class, 'update'])->name('super.admin-detail.update');
+        Route::delete('/super/admin/{admin_id}', [\App\Http\Controllers\Super\AdminDetailController::class, 'destroy'])->name('super.admin-detail.destroy');
 });
 
 // Admin

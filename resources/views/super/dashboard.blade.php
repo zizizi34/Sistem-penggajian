@@ -133,37 +133,32 @@
 
         <!-- Admin Departemen Section -->
         <div class="bg-white shadow rounded-lg p-6">
-            <div class="mb-6">
-                <h3 class="text-lg font-semibold text-gray-900">Admin per Departemen</h3>
-                <p class="mt-1 text-sm text-gray-600">Distribusi admin di setiap departemen. Klik untuk melihat detail.</p>
-            </div>
+                <div class="mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Admin per Departemen</h3>
+                    <p class="mt-1 text-sm text-gray-600">Distribusi admin tiap departemen. Geser untuk melihat.</p>
+                </div>
 
-            <div class="grid grid-cols-1 gap-4 max-h-96 overflow-y-auto">
-                @forelse($departments as $dept)
-                    <a href="{{ Route::has('pegawai.index') ? route('pegawai.index', ['dept' => $dept->id]) : '#' }}" class="flex items-center justify-between p-4 bg-gradient-to-r from-yellow-50 to-white rounded-lg border border-yellow-200 hover:border-yellow-300 hover:shadow-md transition duration-200 cursor-pointer group">
-                        <!-- Left: Icon & Name -->
-                        <div class="flex items-center gap-4 min-w-0">
-                            <div class="h-12 w-12 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
-                                {{ strtoupper(substr($dept->nama_departemen, 0, 1)) }}
+                <div class="space-y-3 max-h-96 overflow-y-auto">
+                    @forelse($departments as $dept)
+                        <a href="{{ route('super.admin-detail.show', $dept->id) }}" class="w-full flex flex-col items-start p-4 bg-white rounded-lg border border-yellow-100 hover:border-yellow-300 hover:shadow-md transition duration-200 cursor-pointer">
+                            <div class="flex items-center gap-3 w-full">
+                                <div class="h-10 w-10 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+                                    {{ strtoupper(substr($dept->nama_departemen, 0, 1)) }}
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="font-medium text-gray-900 truncate">{{ $dept->nama_departemen }}</div>
+                                    <div class="text-xs text-gray-500">Klik untuk lihat detail</div>
+                                </div>
                             </div>
-                            <div class="flex-1 min-w-0">
-                                <div class="font-semibold text-gray-900 group-hover:text-yellow-700 transition">{{ $dept->nama_departemen }}</div>
-                                <div class="text-xs text-gray-500 mt-1">Klik untuk lihat detail</div>
+                            <div class="mt-3 w-full flex items-center justify-between gap-2">
+                                <div class="inline-flex items-center px-2.5 py-1 rounded-full bg-purple-50 text-purple-700 text-sm font-semibold">
+                                    {{ $dept->admins_count ?? 0 }} admin
+                                </div>
+                                <div class="inline-flex items-center px-2.5 py-1 rounded-full bg-green-50 text-green-700 text-sm font-semibold">
+                                    {{ $dept->pegawais_count ?? 0 }} pegawai
+                                </div>
                             </div>
-                        </div>
-                        
-                        <!-- Right: Stats (Aligned) -->
-                        <div class="flex items-center justify-end gap-8 ml-4 flex-shrink-0">
-                            <div class="text-right">
-                                <div class="text-xl font-bold text-purple-600">{{ $dept->admins_count ?? 0 }}</div>
-                                <div class="text-xs text-purple-500 font-medium">admin</div>
-                            </div>
-                            <div class="text-right">
-                                <div class="text-xl font-bold text-green-600">{{ $dept->pegawais_count ?? 0 }}</div>
-                                <div class="text-xs text-green-500 font-medium">pegawai</div>
-                            </div>
-                        </div>
-                    </a>
+                        </a>
                 @empty
                     <div class="text-center py-12 text-gray-500">
                         <svg class="h-12 w-12 mx-auto text-gray-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
